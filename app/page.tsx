@@ -1,4 +1,3 @@
-import Footer from './components/Footer'
 import { TransactionChart } from './components/TransactionChart'
 import { TransactionSummary } from './components/TransactionSummary'
 

@@ -1,5 +1,5 @@
 'use client'
-
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
@@ -7,7 +7,22 @@ import { useTransactionStore } from '@/lib/store'
 import { motion } from 'framer-motion'
 import { useTheme } from 'next-themes'
 
-const AnimatedBar = ({ x, y, width, height, fill }: any) => {
+
+interface ChartData {
+  date: string;
+  income: number;
+  expense: number;
+}
+
+interface AnimatedBarProps {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  fill: string;
+}
+
+const AnimatedBar = ({ x = 0, y = 0, width = 0, height = 0, fill = ''  }: AnimatedBarProps) => {
   const [animatedStyle, setAnimatedStyle] = useState({ y: y || 0, height: 0 })
 
   useEffect(() => {
@@ -28,7 +43,7 @@ const AnimatedBar = ({ x, y, width, height, fill }: any) => {
 
 export function TransactionChart() {
   const { transactions, fetchTransactions } = useTransactionStore()
-  const [chartData, setChartData] = useState<any[]>([])
+  const [chartData, setChartData] = useState<ChartData[]>([])
   const { theme } = useTheme()
 
   useEffect(() => {
@@ -36,11 +51,15 @@ export function TransactionChart() {
   }, [fetchTransactions])
 
   useEffect(() => {
-    const newChartData = transactions.reduce((acc: any[], transaction) => {
+    const newChartData: ChartData[] = transactions.reduce((acc: ChartData[], transaction) => {
       const date = new Date(transaction.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
       const existingDate = acc.find(item => item.date === date)
       if (existingDate) {
-        existingDate[transaction.type] += Number(transaction.amount) || 0
+        if (transaction.type === 'income') {
+          existingDate.income += Number(transaction.amount) || 0;
+        } else if (transaction.type === 'expense') {
+          existingDate.expense += Number(transaction.amount) || 0;
+        }
       } else {
         acc.push({
           date,
@@ -77,8 +96,8 @@ export function TransactionChart() {
                 <YAxis tick={{ fill: theme === 'dark' ? '#fff' : '#333' }} />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="income" fill={barColorIncome} shape={<AnimatedBar />} />
-                <Bar dataKey="expense" fill={barColorExpense} shape={<AnimatedBar />} />
+                <Bar dataKey="income" fill={barColorIncome} shape={(props : any) => <AnimatedBar {...props} />} />
+                <Bar dataKey="expense" fill={barColorExpense} shape={(props : any) => <AnimatedBar {...props} />} />
               </BarChart>
             </ResponsiveContainer>
           </div>

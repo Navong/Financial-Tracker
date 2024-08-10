@@ -5,8 +5,7 @@ import { Transaction } from '@/lib/type'
 import { useTheme } from 'next-themes'
 import { TrashIcon } from 'lucide-react'
 import { useTransactionStore } from '@/lib/store';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
+import { useState } from 'react';
 
 export function TransactionItem({ transaction }: { transaction: Transaction }) {
   const { theme } = useTheme()

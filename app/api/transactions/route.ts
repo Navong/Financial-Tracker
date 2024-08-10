@@ -1,11 +1,8 @@
 import { NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
 import { addTransactionRedis, getTransactionRedis, removeTransactionRedis } from '@/lib/redis'
 import { auth } from '@clerk/nextjs/server';
 import { Transaction } from '@/lib/type';
 
-// Initialize Prisma client
-const prisma = new PrismaClient()
 
 
 // GET: Fetch all transactions
