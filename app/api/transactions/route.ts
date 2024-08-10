@@ -1,16 +1,26 @@
 import { NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
+import { addTransactionRedis, getTransactionRedis, removeTransactionRedis } from '@/lib/redis'
+import { auth } from '@clerk/nextjs/server';
+import { Transaction } from '@/lib/type';
 
 // Initialize Prisma client
 const prisma = new PrismaClient()
+
 
 // GET: Fetch all transactions
 export async function GET() {
   try {
     // Fetch all transactions from the database
-    const transactions = await prisma.transaction.findMany()
+    // const transactions = await prisma.transaction.findMany()
+    const { userId } = await auth();
+    if (!userId) {
+      throw new Error('User ID is null');
+    }
+    const transactions = await getTransactionRedis(userId)
 
-    console.log('All transactions:', transactions)
+    // console.log('All transactions:', transactions)
+
     return NextResponse.json(transactions)
   } catch (error) {
     console.error('Error fetching transactions:', error)
@@ -22,24 +32,40 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     // Parse the transaction data from the request
-    const transaction = await request.json()
+    const { userId } = await auth();
+    if (!userId) {
+      throw new Error('User ID is null');
+    }
+    const transaction : Transaction = await request.json()
 
-    console.log(transaction)
-
-    // Create a new transaction in the database
-    const newTransaction = await prisma.transaction.create({
-      data: {
-        amount: transaction.amount,
-        description: transaction.description,
-        type: transaction.type,
-        date: new Date(transaction.date || Date.now()), // use current date if not provided
-      },
-    })
+    const newTransaction = await addTransactionRedis(transaction, userId)
 
     // Respond with the newly created transaction
     return NextResponse.json({ success: true, transaction: newTransaction })
   } catch (error) {
     console.error('Error adding transaction:', error)
     return NextResponse.json({ error: 'Failed to add transaction' }, { status: 500 })
+  }
+}
+
+
+// DELETE: Delete a transaction
+export async function DELETE(request: Request) {
+  try {
+    // Parse the transaction ID from the request
+    const { userId } = await auth();
+    if (!userId) {
+      throw new Error('User ID is null');
+    }
+
+    const transactionId = await request.json()
+
+    const result = await removeTransactionRedis(transactionId, userId)
+
+    return NextResponse.json({ success: true, result })
+    
+  } catch (error) {
+    console.error('Error deleting transaction:', error)
+    return NextResponse.json({ error: 'Failed to delete transaction' }, { status: 500 })
   }
 }
