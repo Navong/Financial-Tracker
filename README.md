@@ -298,6 +298,3 @@ export async function DELETE(request: Request) {
 ## License  
 This project is licensed under the MIT License.
 
----
-
-Let me know if you'd like to expand on any specific section!
