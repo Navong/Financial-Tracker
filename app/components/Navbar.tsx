@@ -32,6 +32,7 @@ export function Navbar() {
     }
   }, [])
 
+
   const { theme } = useTheme()
 
   return (
@@ -77,11 +78,11 @@ export function Navbar() {
             {/* <div className='flex'>
               <ThemeSwitcher />
             </div> */}
-            <SignedOut>
+            {/* <SignedOut>
               <SignInButton />
-            </SignedOut>
+            </SignedOut> */}
             <SignedIn>
-              <UserButton />
+              <UserButton signInUrl="/" />
             </SignedIn>
           </div>
         </div>
@@ -99,10 +100,10 @@ export function Navbar() {
               key={item.href}
               href={item.href}
               className={`flex items-center px-4 py-3 rounded-md text-sm font-medium ${pathname === item.href
-                  ? 'bg-blue-500 text-white'
-                  : theme === 'dark'
-                    ? 'text-white hover:bg-gray-800 hover:text-blue-500'
-                    : 'text-gray-700 hover:bg-blue-100 hover:text-blue-500'
+                ? 'bg-blue-500 text-white'
+                : theme === 'dark'
+                  ? 'text-white hover:bg-gray-800 hover:text-blue-500'
+                  : 'text-gray-700 hover:bg-blue-100 hover:text-blue-500'
                 }`}
               onClick={() => setIsMobileMenuOpen(false)} // Close menu after selecting a link
             >
