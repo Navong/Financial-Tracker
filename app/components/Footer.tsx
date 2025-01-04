@@ -23,7 +23,7 @@ const Footer = () => {
           <div className='hidden lg:block'>
             <div className="flex space-x-4 mt-4 md:mt-0">
               <a
-                href="https://github.com/Navong"
+                href="https://github.com/Navong/Financial-Tracker"
                 className={`text-gray-700 ${theme === 'dark' ? 'text-white' : 'text-blue-500'}`}
                 aria-label="Github"
               >

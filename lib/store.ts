@@ -20,7 +20,6 @@ export const useTransactionStore = create<TransactionStore>((set, get) => ({
     const response = await fetch('/api/transactions')
     const transactions = await response.json()
     // React Query hook
-
     set({ transactions: transactions.sort((a: Transaction, b: Transaction) => new Date(b.date).getTime() - new Date(a.date).getTime()) })
   },
 

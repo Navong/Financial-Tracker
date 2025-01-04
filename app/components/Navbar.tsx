@@ -74,9 +74,9 @@ export function Navbar() {
                 {item.label}
               </Link>
             ))}
-            <div className='flex'>
+            {/* <div className='flex'>
               <ThemeSwitcher />
-            </div>
+            </div> */}
             <SignedOut>
               <SignInButton />
             </SignedOut>
@@ -110,9 +110,9 @@ export function Navbar() {
               {item.label}
             </Link>
           ))}
-          <div className="flex justify-center items-center w-full px-4 py-3">
+          {/* <div className="flex justify-center items-center w-full px-4 py-3">
             <ThemeSwitcher />
-          </div>
+          </div> */}
           <div className="flex justify-center items-center w-full px-4 py-3">
             <SignedOut>
               <SignInButton />
