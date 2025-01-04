@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Home, List, BarChart2, Menu, X } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { SignedIn, UserButton } from "@clerk/nextjs";
 // import { ThemeSwitcher } from './ThemeSwitcher'
 import { useTheme } from 'next-themes'
 
