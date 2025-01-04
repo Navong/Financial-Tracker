@@ -115,11 +115,8 @@ export function Navbar() {
             <ThemeSwitcher />
           </div> */}
           <div className="flex justify-center items-center w-full px-4 py-3">
-            <SignedOut>
-              <SignInButton />
-            </SignedOut>
             <SignedIn>
-              <UserButton />
+              <UserButton signInUrl="/" />
             </SignedIn>
           </div>
         </div>
