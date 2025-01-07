@@ -31,7 +31,7 @@ A simple and efficient Financial Tracker application built using **Next.js**, **
 - **Radix UI**: For building accessible and custom React components.
 - **LUCIDE**: For icons.
 
-### Packages Manager  
+### Packages Manager   
 - **pnpm**
 
 ### Performance Test
